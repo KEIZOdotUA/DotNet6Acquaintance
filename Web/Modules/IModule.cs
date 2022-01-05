@@ -1,22 +1,25 @@
-﻿namespace Web.Modules
+﻿namespace Web.Modules;
+
+/// <summary>
+/// Module interface.
+/// </summary>
+public interface IModule
 {
     /// <summary>
-    /// Module interface.
+    /// Registers the services.
     /// </summary>
-    public interface IModule
-    {
-        /// <summary>
-        /// Registers the modules.
-        /// </summary>
-        /// <param name="builder">Service collection builder.</param>
-        /// <returns></returns>
-        IServiceCollection RegisterModules(IServiceCollection builder);
+    /// <param name="services">Services collection.</param>
+    /// <returns>
+    /// Services collection with new services.
+    /// </returns>
+    IServiceCollection RegisterServices(IServiceCollection services);
 
-        /// <summary>
-        /// Maps the endpoints.
-        /// </summary>
-        /// <param name="endpoints">The endpoints.</param>
-        /// <returns></returns>
-        IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints);
-    }
+    /// <summary>
+    /// Maps the endpoints.
+    /// </summary>
+    /// <param name="endpoints">Endpoints builder.</param>
+    /// <returns>
+    /// Mapped endpoints.
+    /// </returns>
+    IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints);
 }
