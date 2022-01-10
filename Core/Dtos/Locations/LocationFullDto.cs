@@ -1,11 +1,19 @@
-﻿namespace Core.Entities;
+﻿namespace Core.Dtos.Locations;
 
 /// <summary>
-/// Location entity.
+/// Location DTO.
 /// </summary>
-/// <seealso cref="Core.Entities.EntityBase" />
-public class Location : EntityBase
+/// <seealso cref="System.IEquatable&lt;Core.Dtos.Locations.LocationFullDto&gt;" />
+public record LocationFullDto
 {
+    /// <summary>
+    /// Gets or sets the identifier.
+    /// </summary>
+    /// <value>
+    /// The identifier.
+    /// </value>
+    public Guid Id { get; set; }
+
     /// <summary>
     /// Gets or sets location name.
     /// </summary>
@@ -20,7 +28,7 @@ public class Location : EntityBase
     /// <value>
     /// Geographic longitude coordinates.
     /// </value>
-    public float Lon { get; set; }
+    public short Lon { get; set; }
 
     /// <summary>
     /// Gets or sets the lat.
@@ -28,5 +36,5 @@ public class Location : EntityBase
     /// <value>
     /// Geographic latitude coordinates.
     /// </value>
-    public float Lat { get; set; }
+    public short Lat { get; set; }
 }

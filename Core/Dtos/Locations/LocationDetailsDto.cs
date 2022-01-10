@@ -1,22 +1,18 @@
-﻿namespace Core.Dtos;
+﻿namespace Core.Dtos.Locations;
 
-public record LocationDto
+/// <summary>
+/// Create/Update locations request DTO.
+/// </summary>
+public class LocationDetailsDto
 {
-    /// <summary>
-    /// Gets or sets the identifier.
-    /// </summary>
-    /// <value>
-    /// The identifier.
-    /// </value>
-    public Guid Id { get; set; }
-
     /// <summary>
     /// Gets or sets location name.
     /// </summary>
     /// <value>
     /// The name.
     /// </value>
-    public string Name { get; set; }
+    [Required]
+    public string Name { get; init; }
 
     /// <summary>
     /// Gets or sets the lon.
@@ -24,7 +20,8 @@ public record LocationDto
     /// <value>
     /// Geographic longitude coordinates.
     /// </value>
-    public short Lon { get; set; }
+    [Required]
+    public float Lon { get; init; }
 
     /// <summary>
     /// Gets or sets the lat.
@@ -32,5 +29,6 @@ public record LocationDto
     /// <value>
     /// Geographic latitude coordinates.
     /// </value>
-    public short Lat { get; set; }
+    [Required]
+    public float Lat { get; init; }
 }
