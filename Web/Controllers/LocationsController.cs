@@ -1,9 +1,9 @@
-﻿using Core.Dtos.Locations;
-using Core.Modules.Locations.CreateLocation;
-using Core.Modules.Locations.DeleteLocation;
-using Core.Modules.Locations.GetAllLocations;
-using Core.Modules.Locations.GetLocationDetails;
-using Core.Modules.Locations.UpdateLocation;
+﻿using Application.Dtos.Locations;
+using Application.Modules.Locations.Commands.CreateLocation;
+using Application.Modules.Locations.Commands.DeleteLocation;
+using Application.Modules.Locations.Commands.UpdateLocation;
+using Application.Modules.Locations.Queries.GetAllLocations;
+using Application.Modules.Locations.Queries.GetLocationDetails;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -12,7 +12,7 @@ namespace API.Controllers;
 /// <summary>
 /// Locations controller.
 /// </summary>
-/// <seealso cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
+/// <seealso cref="Microsoft.AspNetApplication.Mvc.ControllerBase" />
 [Route("api/locations")]
 [ApiController]
 public class LocationsController : ControllerBase
@@ -37,11 +37,11 @@ public class LocationsController : ControllerBase
     [ProducesResponseType(typeof(ErrorResponseDto), (int)HttpStatusCode.BadRequest)]
     public async Task<ActionResult<LocationShortDto[]>> GetAllLocationsAsync()
     {
-        var request = new GetAllLocationsRequest();
+        var queryRequest = new GetAllLocationsQueryRequest();
 
-        var result = await _mediator.Send(request);
+        var queryResult = await _mediator.Send(queryRequest);
 
-        return Ok(result.Data);
+        return Ok(queryResult.Data);
     }
 
     /// <summary>
@@ -57,11 +57,11 @@ public class LocationsController : ControllerBase
     [ProducesResponseType(typeof(ErrorResponseDto), (int)HttpStatusCode.NotFound)]
     public async Task<ActionResult<LocationFullDto>> GetLocationDetailsAsync([FromRoute] Guid id)
     {
-        var request = new GetLocationDetailsRequest { Id = id };
+        var queryRequest = new GetLocationDetailsQueryRequest { Id = id };
 
-        var result = await _mediator.Send(request);
+        var queryResult = await _mediator.Send(queryRequest);
 
-        return Ok(result.Data);
+        return Ok(queryResult.Data);
     }
 
     /// <summary>
@@ -77,11 +77,11 @@ public class LocationsController : ControllerBase
     [ProducesResponseType(typeof(ErrorResponseDto), (int)HttpStatusCode.BadRequest)]
     public async Task<ActionResult> CreateLocationAsync([FromBody] LocationDetailsDto details)
     {
-        var request = new CreateLocationRequest { Details = details };
+        var commandRequest = new CreateLocationCommandRequest { Details = details };
 
-        var result = await _mediator.Send(request);
+        var commandResult = await _mediator.Send(commandRequest);
 
-        return Created(new Uri(Request.Host + Request.Path + "/" + result.Data.ToString()), null);
+        return Created(new Uri(Request.Host + Request.Path + "/" + commandResult.Data.ToString()), null);
     }
 
     /// <summary>
@@ -97,13 +97,13 @@ public class LocationsController : ControllerBase
     [ProducesResponseType(typeof(ErrorResponseDto), (int)HttpStatusCode.NotFound)]
     public async Task<ActionResult> UpdateLocationAsync([FromRoute] Guid id, [FromBody] LocationDetailsDto details)
     {
-        var request = new UpdateLocationRequest
+        var commandRequest = new UpdateLocationCommandRequest
         { 
             Details = details,
             Id = id,
         };
 
-        await _mediator.Send(request);
+        await _mediator.Send(commandRequest);
 
         return NoContent();
     }
@@ -121,9 +121,9 @@ public class LocationsController : ControllerBase
     [ProducesResponseType(typeof(ErrorResponseDto), (int)HttpStatusCode.NotFound)]
     public async Task<ActionResult> DeleteLocationAsync([FromRoute] Guid id)
     {
-        var request = new DeleteLocationRequest { Id = id };
+        var commandRequest = new DeleteLocationCommandRequest { Id = id };
 
-        await _mediator.Send(request);
+        await _mediator.Send(commandRequest);
 
         return NoContent();
     }

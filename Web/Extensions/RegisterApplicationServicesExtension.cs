@@ -1,8 +1,11 @@
 ﻿using API.Filters;
-using Core.Extensions;
-using Core.Interfaces;
-using Infrastructure;
-using Infrastructure.Repositories;
+using Application.Interfaces.Repositories;
+using Application.Interfaces.Services;
+using Application.Modules.Locations;
+using Domain.Constants;
+using Domain.Enums;
+using Infrastructure.Persistance;
+using Infrastructure.Persistance.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Extensions;
@@ -18,16 +21,20 @@ public static class RegisterApplicationServicesExtension
     /// <param name="services">Application services instance.</param>
     public static void RegisterServices(this IServiceCollection services)
     {
-        services.AddDbContext<AppDbContext>(opt => opt.UseInMemoryDatabase(CommonConstants.DbName));
-        services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-
-        var assembly = AppDomain.CurrentDomain.Load(CommonConstants.CoreProjectName);
-        services.AddMediatR(assembly);
-        services.AddAutoMapper(assembly);
-
         services.AddMvc(options =>
         {
             options.Filters.Add(typeof(HttpGlobalExceptionFilter));
         });
+
+        services.AddDbContext<AppDbContext>(opt => opt.UseInMemoryDatabase(Common.DbName));
+        services.SeedData();
+
+        var assembly = AppDomain.CurrentDomain.Load(Projects.Application.ToString());
+        services.AddMediatR(assembly);
+        services.AddAutoMapper(assembly);
+
+        services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+
+        services.AddTransient<ILocationsService, LocationsService>();
     }
 }

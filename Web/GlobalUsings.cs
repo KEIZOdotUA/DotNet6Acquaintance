@@ -1,2 +1,2 @@
 ﻿global using MediatR;
-global using Core.Dtos.Common;
+global using Application.Dtos.Common;
