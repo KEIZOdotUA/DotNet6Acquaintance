@@ -23,7 +23,7 @@ public static class RegisterSwaggerExtension
             options.SwaggerDoc("v1", new OpenApiInfo
             {
                 Version = "v1",
-                Title = "Weather API",
+                Title = "KeizoWeatherAPI",
             });
 
             var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";

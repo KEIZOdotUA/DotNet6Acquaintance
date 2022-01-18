@@ -14,7 +14,14 @@ builder.Services.RegisterSwagger();
 
 var app = builder.Build();
 app.UseSwagger();
-app.UseSwaggerUI();
+
+app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint(
+            builder.Configuration["ConfigurationInfo:SwaggerPath"],
+            builder.Configuration["ConfigurationInfo:SwaggerName"]);
+        c.RoutePrefix = String.Empty;
+    });
 app.UseHttpsRedirection();
 app.MapControllers();
 
