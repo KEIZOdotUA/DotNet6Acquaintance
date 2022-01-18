@@ -6,3 +6,4 @@ global using Domain.Entities;
 global using Application.Exceptions;
 global using Application.Interfaces.Repositories;
 global using Application.Interfaces.Services;
+global using Application.Interfaces;

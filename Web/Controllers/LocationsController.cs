@@ -4,8 +4,6 @@ using Application.Modules.Locations.Commands.DeleteLocation;
 using Application.Modules.Locations.Commands.UpdateLocation;
 using Application.Modules.Locations.Queries.GetAllLocations;
 using Application.Modules.Locations.Queries.GetLocationDetails;
-using Microsoft.AspNetCore.Mvc;
-using System.Net;
 
 namespace API.Controllers;
 

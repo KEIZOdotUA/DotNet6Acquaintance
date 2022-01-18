@@ -1,7 +1,5 @@
 ﻿using Application.Exceptions;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using System.Net;
 
 namespace API.Filters;
 
@@ -16,16 +14,44 @@ public class HttpGlobalExceptionFilter : IExceptionFilter
     /// <param name="context">The <see cref="T:Microsoft.AspNetApplication.Mvc.Filters.ExceptionContext" />.</param>
     public void OnException(ExceptionContext context)
     {
-        context.HttpContext.Response.StatusCode =
-            context.Exception switch
+        var errorMessage = context.Exception.GetBaseException().Message;
+
+        ErrorResponseDto errorResponse = context.Exception switch
+        {
+            ExistsException => new()
             {
-                UnauthorizedAccessException => (int)HttpStatusCode.Unauthorized,
-                NotFoundException => (int)HttpStatusCode.NotFound,
-                _ => (int)HttpStatusCode.BadRequest,
-            };
+                StatusCode = (int)HttpStatusCode.BadRequest,
+                Type = ErrorTypes.EXIST_EXCEPTION.ToString(),
+                Message = errorMessage,
+            },
+            ExternalServiceException => new()
+            {
+                StatusCode = (int)HttpStatusCode.BadRequest,
+                Type = ErrorTypes.EXTERNAL_SERVICE_EXCEPTION.ToString(),
+                Message = errorMessage,
+            },
+            UnauthorizedAccessException => new()
+            {
+                StatusCode = (int)HttpStatusCode.Unauthorized,
+                Type = ErrorTypes.UNAUTHORIZED_EXCEPTION.ToString(),
+                Message = errorMessage,
+            },
+            NotFoundException => new()
+            {
+                StatusCode = (int)HttpStatusCode.NotFound,
+                Type = ErrorTypes.NOT_FOUND_EXCEPTION.ToString(),
+                Message = errorMessage,
+            },
+            _ => new()
+            {
+                StatusCode = (int)HttpStatusCode.BadRequest,
+                Type = ErrorTypes.UNHANDLED_EXCEPTION.ToString(),
+                Message = errorMessage,
+            },
+        };
 
-        context.Result = new ObjectResult(new ErrorResponseDto { Message = context.Exception.GetBaseException().Message });
-
+        context.HttpContext.Response.StatusCode = errorResponse.StatusCode;
+        context.Result = new ObjectResult(errorResponse);
         context.ExceptionHandled = true;
     }
 }
