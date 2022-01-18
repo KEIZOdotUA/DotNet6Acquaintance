@@ -10,7 +10,7 @@ namespace API.Controllers;
 /// <summary>
 /// Locations controller.
 /// </summary>
-/// <seealso cref="Microsoft.AspNetApplication.Mvc.ControllerBase" />
+/// <seealso cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
 [Route("api/locations")]
 [ApiController]
 public class LocationsController : ControllerBase
@@ -65,7 +65,6 @@ public class LocationsController : ControllerBase
     /// <summary>
     /// Creates new location.
     /// </summary>
-    /// <param name="id">Location identifier.</param>
     /// <param name="details">Location details.</param>
     /// <returns>
     /// Action result.
@@ -85,6 +84,7 @@ public class LocationsController : ControllerBase
     /// <summary>
     /// Updates existing location.
     /// </summary>
+    /// <param name="id">Location identifier.</param>
     /// <param name="details">Location details.</param>
     /// <returns>
     /// Action result.

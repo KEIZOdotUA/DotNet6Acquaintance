@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json.Converters;
+﻿using Microsoft.OpenApi.Models;
+using Newtonsoft.Json.Converters;
+using System.Reflection;
 
 namespace API.Extensions;
 
@@ -16,7 +18,17 @@ public static class RegisterSwaggerExtension
         services.AddControllers()
             .AddNewtonsoftJson(options => options.SerializerSettings.Converters.Add(new StringEnumConverter()));
         services.AddEndpointsApiExplorer();
-        services.AddSwaggerGen();
+        services.AddSwaggerGen(options =>
+        {
+            options.SwaggerDoc("v1", new OpenApiInfo
+            {
+                Version = "v1",
+                Title = "Weather API",
+            });
+
+            var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+        });
         services.AddSwaggerGenNewtonsoftSupport();
     }
 }
