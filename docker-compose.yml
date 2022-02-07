@@ -1,0 +1,22 @@
+version: '3.4'
+
+services:
+  weatherservice.web:
+    image: ${DOCKER_REGISTRY-}weatherserviceweb
+    build:
+      context: .
+      dockerfile: WeatherService.Web/Dockerfile
+
+  locationsservice.web:
+    image: ${DOCKER_REGISTRY-}locationsserviceweb
+    build:
+      context: .
+      dockerfile: LocationsService.Web/Dockerfile
+
+
+  forecastservice.web:
+    image: ${DOCKER_REGISTRY-}forecastserviceweb
+    build:
+      context: .
+      dockerfile: ForecastService.Web/Dockerfile
+

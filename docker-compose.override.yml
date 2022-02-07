@@ -1,0 +1,22 @@
+version: '3.4'
+
+services:
+  weatherservice.web:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - Services__Locations=http://locationsservice.web
+      - Services__Forecast=http://forecastservice.web
+    ports:
+      - "6001:80"
+
+  locationsservice.web:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "6002:80"
+
+  forecastservice.web:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "6003:80"

@@ -1,0 +1,11 @@
+﻿global using AutoMapper;
+global using Microsoft.AspNetCore.Diagnostics;
+global using Microsoft.AspNetCore.WebUtilities;
+global using ForecastService.Web.Modules.Forecast.Ports;
+global using System.Globalization;
+global using System.Runtime.Serialization;
+global using System.Text.Json;
+global using System.Text.Json.Serialization;
+global using ForecastService.Web.Modules.Forecast;
+global using ForecastService.Web.Modules.Forecast.Adapters;
+global using ForecastService.Web.Modules.Forecast.Core;
